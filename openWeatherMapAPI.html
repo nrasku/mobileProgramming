@@ -1,0 +1,49 @@
+<!-- Fetch weather details of Helsinki from OpenWeatherMap -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    
+    <script type="text/babel">
+      class OpenWMAPI extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {temp: '', weather: '', icon: ''};
+        }
+        componentDidMount() {
+          fetch('https://api.openweathermap.org/data/2.5/weather?q=Helsinki&APPID=93c6a09f5a19f5fcc145aea953165a3d')
+          .then((response) => response.json()) 
+          .then((responseData) => { 
+             console.log(responseData);
+              this.setState({ 
+                temp: responseData.main.temp,
+                weather: responseData.weather[0].main,
+                icon: responseData.weather[0].icon
+              }); 
+          });
+        }
+        
+        render() { 
+          return (
+            <div>
+              <div>Temperature: {this.state.temp - 273.15} Celsius</div>
+              <div>Weather: {this.state.weather}</div>
+              <img src={"http://openweathermap.org/img/w/" + this.state.icon + ".png"}/>
+            </div>
+          );
+        }
+      }
+      
+      ReactDOM.render(<OpenWMAPI />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
