@@ -1,0 +1,62 @@
+<!-- Fetch weather details of Helsinki from OpenWeatherMap -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    
+    <script type="text/babel">
+      class GitAPI extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {repoList: [], query: ''};
+        }
+        fetchRepos() {
+          let url = "https://api.github.com/search/repositories?q=" + this.state.query
+          fetch(url)
+          .then((response) => response.json())
+          .then((responseData) => {
+            this.setState({
+              repoList: responseData.items
+            });
+          });
+        }
+        handleChange = (e) => {
+          this.setState({query: e.target.value});
+        }
+        
+        render() { 
+          const itemRows = this.state.repoList.map((item) => 
+            <tr key={item.full_name}>
+              <td>{item.full_name}</td>
+              <td>{item.owner.url}</td>
+            </tr>
+          )
+          return (
+            <div>
+              <h2>Repositories</h2>
+              <input name="query" type="text" onChange={ this.handleChange } value={this.state.query}></input>
+              <button onClick={this.fetchRepos.bind(this)}>Search</button>
+              <table>
+                <tbody>
+                  <tr><th>Name</th><th>URL</th></tr>
+                  {itemRows}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+      }
+      
+      ReactDOM.render(<GitAPI />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
