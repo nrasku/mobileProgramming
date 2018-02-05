@@ -3,6 +3,8 @@ import { Text, View, Button, TextInput, Alert } from 'react-native';
 
 export default class GuessingGame extends React.Component {
 
+  static navigationOptions = {title: 'GuessingGame'};
+
   constructor(props) {
     super(props);
     this.state = { secretNumber: Math.floor(Math.random() * 100) + 1, 
@@ -40,9 +42,10 @@ export default class GuessingGame extends React.Component {
   }
 
   render() {
+    const { params } = this.props.navigation.state
     return (
-    	<View style={this.props.styles.container}>
-       <Text style={this.props.styles.header}> Guessing Game</Text>
+    	<View style={params.styles.styles.container}>
+       <Text style={params.styles.styles.header}> Guessing Game</Text>
     	  <Text>{this.state.result}</Text>
         <Text>{this.state.hint}</Text>
     	  <TextInput style={{width: 50, borderColor: 'lightgray',

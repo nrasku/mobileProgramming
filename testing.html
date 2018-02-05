@@ -1,0 +1,50 @@
+<!-- Fetch Helsinki weather details from OpenWeatherMapp -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    
+    <script type="text/babel">
+      class openWMAPI extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {temp: '', weather: ''};
+          console.log("Hello");
+        }
+        componentDidMount() {
+          console.log("Hello");
+          fetch('https://api.openweathermap.org/data/2.5/weather?q=Helsinki&APPID=93c6a09f5a19f5fcc145aea953165a3d')
+          .then((response) => response.json()) 
+          .then((responseData) => { 
+             console.log(responseData);
+              this.setState({ 
+                temp: responseData.main,
+                weather: responseData.weather
+              }); 
+          });
+        }
+        
+        render() { 
+          return (
+            <div>
+              Hello
+              <div>Temperature: {this.state.temp}</div>
+              <div>Weather: {this.state.weather}</div>
+            </div>
+          );
+        }
+      }
+      
+      ReactDOM.render(<openWMAPI />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
