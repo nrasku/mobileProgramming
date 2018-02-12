@@ -33,7 +33,7 @@ export default class App extends React.Component {
     let key = this.state.current.toString();
     console.log(key);
     let rate = fx.convert(this.state.euroAmount, {from: key, to: "EUR"});
-    this.setState({result: rate.toFixed(4)});
+    this.setState({result: rate.toFixed(2)});
   }
 
 
