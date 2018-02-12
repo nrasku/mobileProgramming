@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, TextInput, Alert } from 'react-native';
+import { Text, View, Button, TextInput, Alert, AsyncStorage } from 'react-native';
 
 export default class GuessingGame extends React.Component {
 
@@ -8,8 +8,12 @@ export default class GuessingGame extends React.Component {
   constructor(props) {
     super(props);
     this.state = { secretNumber: Math.floor(Math.random() * 100) + 1, 
-                   guess: '', result: '', counter: 0, hint: '' }
+                   guess: '', result: '', counter: 0, hint: '', highscore: '-'}
       
+  }
+
+  componentDidMount() {
+    this._initialStorage();
   }
 
   check = () => {
@@ -27,6 +31,7 @@ export default class GuessingGame extends React.Component {
         counter: 0
       })
       Alert.alert("You guessed the number in " + this.state.counter + " guesses");
+      this.setHighScore(this.state.counter);
     } else if (guess > secretNumber) {
       result = "Your guess " + guess + " is too high."
     } else if (guess < 0) {
@@ -41,6 +46,32 @@ export default class GuessingGame extends React.Component {
     })
   }
 
+  async _initialStorage() {
+    try {
+        await AsyncStorage.setItem('hc', '0');
+      } catch (e) {
+        Alert.alert('Error setting the highscore');
+      }
+  }
+
+   async setHighScore(score) {
+    let currentHigh = ''
+      try {
+        currentHigh = await AsyncStorage.getItem('hc');
+      } catch (e) {
+        Alert.alert("Error getting highscore");
+      }
+
+      if (Number(currentHigh) > score || currentHigh == '0') {
+        try {
+          await AsyncStorage.setItem('hc', score.toString());
+          this.setState({ highscore: score });
+        } catch (e) {
+          Alert.alert('Error saving your highscore');
+        }
+      }
+    }
+
   render() {
     const { params } = this.props.navigation.state
     return (
@@ -53,6 +84,7 @@ export default class GuessingGame extends React.Component {
             value={this.state.guess}
             keyboardType='numeric' />
         <Button onPress={this.check} title="Make a Guess!"/>
+        <Text>Highscore: {this.state.highscore}</Text>
     	</View>
     );
   }
