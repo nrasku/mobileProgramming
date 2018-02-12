@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, FlatList, Alert, StatusBar, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, Alert, StatusBar, Image, TouchableHighlight, Linking } from 'react-native';
+import Hyperlink from 'react-native-hyperlink'
 
 //
 export default class App extends React.Component {
@@ -23,7 +24,6 @@ export default class App extends React.Component {
 
   setDef = () => {
     this.state.recipes.forEach(function(item) { 
-      console.log(item);
       if (item.thumbnail == "") {
         item.thumbnail = 'http://tutaki.org.nz/wp-content/uploads/2016/04/no-image-available.png';
       }
@@ -44,6 +44,15 @@ export default class App extends React.Component {
     );
   };
 
+  openRecipe = (item) => {
+    console.log(item.href);
+    Linking.openURL(item.href).catch(err => console.error('An error occurred', err));
+  }
+
+  logIt = () => {
+    console.log(this.item.href);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -55,7 +64,9 @@ export default class App extends React.Component {
                                     <Text>
                                       {item.title}
                                     </Text>
-                                    <Image style={{width: 50, height: 50}} source={{uri: item.thumbnail}}/>
+                                    <TouchableHighlight onPress={() => this.openRecipe(item)}>
+                                      <Image style={{width: 50, height: 50}} source={{uri: item.thumbnail}} />
+                                    </TouchableHighlight>
                                   </View>} data={this.state.recipes} 
           ItemSeparatorComponent={this.listSeparator} /> 
         <TextInput style={{fontSize: 18, width: 200}} placeholder='Ingredient' onChangeText={(ingredient) => this.setState({ingredient})} />
