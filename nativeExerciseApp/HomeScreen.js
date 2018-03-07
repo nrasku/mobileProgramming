@@ -60,5 +60,9 @@ const styles = StyleSheet.create({
   	marginTop: 20,
  	flexDirection: 'column',
     justifyContent: 'space-between'
+  },
+  listItemContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
