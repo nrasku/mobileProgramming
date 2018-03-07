@@ -8,21 +8,22 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { address: '', marker: { latitude: "60.201373", longitude: "24.934041", name: "Haaga-Helia"  },
-                    mapRegion: { latitude: 60.201373, longitude: 24.934041, latitudeDelta: 0.03, longitudeDelta: 0.03}
+                    mapRegion: { latitude: 60.201373, longitude: 24.934041, latitudeDelta: 0.03, longitudeDelta: 0.03},
+                    restaurants: []
                   };
 
   }
 
   componentWillMount() {
     this._getLocationAsync();
+    this.getRestaurants();
+    console.log(this.state.restaurants);
   }
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      this.setState({
-        locationResult: 'Permission to access location was denied',
-      });
+      Alert.alert("No access to location. Default selected.");
     } else {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ 
@@ -37,6 +38,7 @@ export default class App extends React.Component {
 
   _handleMapRegionChange = mapRegion => {
     this.setState({ mapRegion });
+    this.getRestaurants();
   };
 
   getCoordinates = () => {
@@ -82,10 +84,24 @@ export default class App extends React.Component {
     }).start();
   }
 
+  getRestaurants = () => {
+    let lat = this.state.marker.latitude;
+    let lng = this.state.marker.longitude;
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + lng + '&radius=500&type=restaurant&key=' + GLOBAL.PLACES_API_KEY;
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => { 
+        this.setState({restaurants: responseJson.results});
+      })
+      .catch((error) => { 
+        console.error(error); 
+        Alert.alert("An error has occured while locating the address");
+      });    
+  }
+
 
 
   render() {
-    console.log(this.state.mapRegion);
     return (
       <View style={{ flex: 1, position: 'relative' }} >
         <MapView style={{ flex:1 }}
@@ -99,7 +115,8 @@ export default class App extends React.Component {
             <MapView.Marker
               coordinate={{latitude: parseFloat(this.state.marker["latitude"]), 
               longitude: parseFloat(this.state.marker["longitude"]) }}
-              title={this.state.marker["name"]}>
+              title={this.state.marker["name"]}
+              pinColor={'blue'}>
                 <MapView.Callout>
                   <View>
                     <Text style={{width: 300, borderColor: 'lightgray',
@@ -107,6 +124,15 @@ export default class App extends React.Component {
                   </View>
                 </MapView.Callout>
             </MapView.Marker>
+            {this.state.restaurants.map((marker, index) => (
+              <MapView.Marker
+                key={index}
+                coordinate={{latitude: marker.geometry.location.lat, 
+                             longitude: marker.geometry.location.lng}}
+                title={marker.name}
+
+              />
+            ))}
             
           </MapView>
           <TextInput style={{width: 200, borderColor: 'lightgray',
