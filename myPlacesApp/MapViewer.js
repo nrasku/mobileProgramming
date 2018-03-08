@@ -10,12 +10,12 @@ export default class MapViewer extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state={marker: {
-			 marker: { latitude: "", longitude: "", name: ""  }
-		}}
+		this.state={
+			 marker: { latitude: "60.1718729", longitude: "24.9414217", name: "Kaivokatu 1, 00100 Helsinki, Finland"  }
+		}
 	}
 
-	componentWillMount = () => {
+	componentDidMount = () => {
 		this.getLocation();
 	}
 
@@ -47,6 +47,7 @@ export default class MapViewer extends React.Component {
 	                          name: json.results[0].formatted_address }
 	        });
 	      }
+	      console.log(this.state.marker);
 	    } catch(err) {
 	      Alert.alert("An error has occured");
 	      console.error(err);
@@ -61,7 +62,12 @@ export default class MapViewer extends React.Component {
 		            longitude: parseFloat(this.state.marker.longitude), 
 		            latitudeDelta: 0.03, 
 		            longitudeDelta: 0.03 }}
-            >
+	            region={{
+	            	latitude: parseFloat(this.state.marker.latitude), 
+		            longitude: parseFloat(this.state.marker.longitude), 
+		            latitudeDelta: 0.03, 
+		            longitudeDelta: 0.03
+	            }}>
             	<MapView.Marker coordinate={{latitude: parseFloat(this.state.marker.latitude), 
                          					longitude: parseFloat(this.state.marker.longitude)}}
                 				title={this.state.marker.name}	>
