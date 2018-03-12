@@ -41,6 +41,10 @@ export default class Calculator extends React.Component {
       );
     });
     console.log(this.state.list);
+    this.setState({
+      item: '',
+      amount: ''
+    });
   }
 
   deleteItem = (id) => {
@@ -86,6 +90,7 @@ export default class Calculator extends React.Component {
                 key={item.id}
                 title={item.product}
                 subtitle={item.amount}
+                rightTitle={'bought'}
                 onPress={() => this.deleteItem(item.id)}
               />
             ))
