@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Keyboard } from 'react-native';
 import { FormLabel, FormInput, Button, List, ListItem } from 'react-native-elements';
 import { SQLite } from 'expo';
 
@@ -28,6 +28,7 @@ export default class PlaceList extends React.Component {
       tx.executeSql('INSERT INTO places (address) VALUES (?)',
                     [this.state.address]);
     }, null, this.updateList)
+    Keyboard.dismiss();
   }
 
   updateList = () => {
@@ -36,6 +37,9 @@ export default class PlaceList extends React.Component {
         this.setState({list: rows._array
         })
       );
+    });
+    this.setState({
+      address: ''
     });
 
   }
@@ -54,7 +58,7 @@ export default class PlaceList extends React.Component {
         <FormLabel>Placefinder</FormLabel>
         <FormInput style={{width: 200, borderColor: 'lightgray',
             borderWidth: 1, margin: 5}}  placeholder="Type in Address" 
-            value={this.state.adress} 
+            value={this.state.address}
             onChangeText={(address) => this.setState({address: address})} />
         <Button onPress={this.saveItem} title="Save"/>
         <List containerStyle={{width: '100%'}}>
@@ -65,7 +69,8 @@ export default class PlaceList extends React.Component {
                                   onLongPress = {() => this.deleteItem(item.id)}>
                 <ListItem 
                 key={item.id} 
-                title={item.address} 
+                title={item.address}
+                rightTitle={'show on map'}
                  />
              </TouchableHighlight>
             ))

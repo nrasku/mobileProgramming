@@ -22,7 +22,6 @@ export default class MapViewer extends React.Component {
 	getLocation = () => {
 		let address = this.props.navigation.state.params.address
 		const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + GLOBAL.API_KEY;
-		console.log(url);
 	    fetch(url)
 	      .then((response) => response.json())
 	      .then((responseJson) => { 
@@ -40,14 +39,12 @@ export default class MapViewer extends React.Component {
 	        Alert.alert("No results found. Check the address");
 	      } else {
 	        let location = json.results[0].geometry.location;
-	        console.log(location);
 	        this.setState({
 	          marker: { latitude: location.lat,
 	                          longitude: location.lng,
 	                          name: json.results[0].formatted_address }
 	        });
 	      }
-	      console.log(this.state.marker);
 	    } catch(err) {
 	      Alert.alert("An error has occured");
 	      console.error(err);
