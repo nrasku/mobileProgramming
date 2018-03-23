@@ -9,6 +9,8 @@ import { AppRegistry,
 
 export default class Home extends React.Component {
 
+	static navigationOptions = {title: 'Home'};
+
 	constructor(props) {
 		super(props);
 		this.spinValue = new Animated.Value(0);

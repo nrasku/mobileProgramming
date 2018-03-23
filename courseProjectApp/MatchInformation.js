@@ -76,11 +76,12 @@ export default class MatchInformation extends React.Component {
 					</View>
 				))}
 				<View style={params.styles.matchSpecifics}>
-					<View style={{height: 150, paddingRight: 80,
+					<View style={{height: 150, paddingRight: 60,
 								alignItems: 'center', justifyContent: 'center'}}>
-						<View style={{alignItems: 'center', justifyContent: 'center'}}>
-							<Text style={{fontWeight: '600'}}>
-								{this.state.homeTeam.shortName}
+						<View style={{height: 10, width: 90, marginBottom: 10,
+									 alignItems: 'center', justifyContent: 'center'}}>
+							<Text style={{fontWeight: '600'}} numberOfLines={1}>
+								{ this.state.homeTeam.name }
 							</Text>
 						</View>	
 							{svgRender(this.state.homeTeam.crestUrl, 70, 80)}
@@ -91,9 +92,10 @@ export default class MatchInformation extends React.Component {
 						</View>
 					</View>
 					<View style={{height: 150, alignItems: 'center', justifyContent: 'center'}}>
-						<View style={{alignItems: 'center', justifyContent: 'center'}}>
-							<Text style={{fontWeight: '600'}}>
-								{this.state.awayTeam.shortName}
+						<View style={{height: 10, width: 90, marginBottom: 10,
+									 alignItems: 'center', justifyContent: 'center'}}>
+							<Text style={{fontWeight: '600'}} numberOfLines={1}>
+								{ this.state.awayTeam.name }
 							</Text>
 						</View>
 							{svgRender(this.state.awayTeam.crestUrl, 70, 80)}
