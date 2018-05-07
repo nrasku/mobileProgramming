@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Image, Text, Alert } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
-import { svgRender } from './Helpers';
+import { svgRender } from '../Helpers';
 
-const GLOBAL = require("./Globals");
+const GLOBAL = require("../Globals");
 
 export default class MatchInformation extends React.Component {
 
@@ -51,8 +51,8 @@ export default class MatchInformation extends React.Component {
 	      	})
 	      })
 	      .catch((error) => { 
-	        console.error(error); 
-	        Alert.alert("An error has occured while locating the statistics");
+	      	Alert.alert("An error has occured while locating the statistics");
+	        console.error(error);
 	      });
 	}
 

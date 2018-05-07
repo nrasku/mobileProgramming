@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Text, Alert, TouchableOpacity } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
-const GLOBAL = require("./Globals");
+const GLOBAL = require("../Globals");
 
 export default class TeamStatistics extends React.Component {
 
@@ -31,8 +31,8 @@ export default class TeamStatistics extends React.Component {
 	        this.formGuide();
 	      })
 	      .catch((error) => { 
-	        console.error(error); 
-	        Alert.alert("An error has occured while locating the statistics");
+	      	Alert.alert("An error has occured while locating the statistics");
+	        console.error(error);
 	      });
 	}
 
@@ -42,7 +42,7 @@ export default class TeamStatistics extends React.Component {
 	    })
 	    if (finishedGames.length !== 0) {
 			let length = finishedGames.length;
-			fn = finishedGames.slice(length - 5, length);
+			fn = length > 5 ? finishedGames.slice(length - 5, length) : finishedGames;
 			let form = []
 			let clubName = this.props.navigation.state.params.teamName;
 			fn.forEach((game) => {

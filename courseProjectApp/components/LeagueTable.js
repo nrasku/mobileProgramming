@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, ScrollView, Image } from 'react-native';
 import { List, ListItem, Avatar } from 'react-native-elements';
-import SVGImage from 'react-native-svg-image';
+import { svgRender } from '../Helpers';
 
-
-const GLOBAL = require('./Globals');
+const GLOBAL = require('../Globals');
 
 export default class LeagueTable extends React.Component {
 
@@ -31,13 +30,9 @@ export default class LeagueTable extends React.Component {
 	        });
 	      })
 	      .catch((error) => { 
-	        console.error(error); 
-	        Alert.alert("An error has occured while locating the address");
+	      	Alert.alert("An error has occured while locating the address");
+	        console.error(error);
 	      });    
-	}
-
-	svgRender = (uri, w, h) => {
-		return <SVGImage source={{uri: uri}} style={{ width: w, height: h }} />
 	}
 
 	tableData = (team) => {
@@ -66,12 +61,12 @@ export default class LeagueTable extends React.Component {
 							<ListItem
 								key={index} 
 		                		title={team.position + ' - ' + team.teamName}
-		                		avatar={this.svgRender(team.crestURI, 40, 40)}
+		                		avatar={svgRender(team.crestURI, 40, 40)}
 		                		rightTitle={'stats'}
 		                		onPress = {() => navigate('TeamStatistics', {styles: params.styles, 
 	                                                                    teamId: team._links.team.href,
 	                                                                	teamName: team.teamName,
-	                                                                	teamLogo: this.svgRender(team.crestURI, 60, 60),
+	                                                                	teamLogo: svgRender(team.crestURI, 60, 60),
 	                                                                	tableData: this.tableData(team)})}
 							/>
 						))}

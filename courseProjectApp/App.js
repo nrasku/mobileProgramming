@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import Home from './Home';
-import LeagueListing from './LeagueListing';
-import LeagueTable from './LeagueTable';
-import TeamStatistics from './TeamStatistics';
-import MatchInformation from './MatchInformation';
+import Home from './components/Home';
+import LeagueListing from './components/LeagueListing';
+import LeagueTable from './components/LeagueTable';
+import TeamStatistics from './components/TeamStatistics';
+import MatchInformation from './components/MatchInformation';
 
 export default class App extends React.Component {
   render() {

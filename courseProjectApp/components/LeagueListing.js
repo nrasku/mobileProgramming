@@ -2,7 +2,7 @@ import React from 'react';
 import {Alert, View, StyleSheet, ScrollView, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
-const GLOBAL = require("./Globals");
+const GLOBAL = require("../Globals");
 
 export default class LeagueListing extends React.Component {
 
@@ -27,8 +27,8 @@ export default class LeagueListing extends React.Component {
 	        });
 	      })
 	      .catch((error) => { 
+	      	Alert.alert("An error has occured while locating the address");
 	        console.error(error); 
-	        Alert.alert("An error has occured while locating the address");
 	      });    
 
 	}

@@ -5,7 +5,7 @@ import { AppRegistry,
 		  View,
 		  Animated,
 		  Image,
-		  Easing, Button } from 'react-native'
+		  Easing, Button } from 'react-native';
 
 export default class Home extends React.Component {
 
@@ -43,13 +43,14 @@ export default class Home extends React.Component {
 					    backgroundColor: '#fff',
 					    alignItems: 'center',
 					    justifyContent: 'center'}}>
+		    	<Text style={{fontWeight: '600', fontSize: 20, marginBottom: 50, color: '#1e7449'}}>FootyResults</Text>
 				<Animated.Image
 			        style={{
 			          width: 250, height: 250,
 			          transform: [{rotate: spin}] }}
-			          source={require('./images/misc/ball.jpg')}
+			          source={require('../images/misc/ball.jpg')}
 			      />
-			      <Button onPress={() => navigate('LeagueListing')} title="League Listing" ></Button>
+			      <Button color='#1e7449' onPress={() => navigate('LeagueListing')} title="League Listing" ></Button>
 			</View>
 		);
 	}
